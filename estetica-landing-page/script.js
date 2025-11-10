@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const navLinks = document.querySelectorAll('.nav-link');
     const sections = document.querySelectorAll('section[id]');
     const form = document.querySelector('.contacto-form');
+    const viewportMeta = document.querySelector('meta[name="viewport"]');
 
     // Header dinámico al hacer scroll
     function handleScroll() {
@@ -51,14 +52,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Menú hamburguesa para móviles
     function toggleMobileMenu() {
+        if (!navList || !hamburger) return;
+        const expanded = hamburger.getAttribute('aria-expanded') === 'true';
+        hamburger.setAttribute('aria-expanded', String(!expanded));
         navList.classList.toggle('active');
         hamburger.classList.toggle('active');
     }
 
     // Cerrar menú móvil al hacer clic en un enlace
     function closeMobileMenu() {
+        if (!navList || !hamburger) return;
         navList.classList.remove('active');
         hamburger.classList.remove('active');
+        hamburger.setAttribute('aria-expanded', 'false');
     }
 
     // Smooth scroll para enlaces de navegación
@@ -197,24 +203,28 @@ document.addEventListener('DOMContentLoaded', function() {
     // Contador animado para precios (opcional)
     function animateCounters() {
         const counters = document.querySelectorAll('.servicio-price, .accesorio-price');
-        
+
         counters.forEach(counter => {
-            const target = counter.textContent;
-            const number = target.replace(/[^\d]/g, '');
-            
-            if (number) {
-                let current = 0;
-                const increment = number / 50;
-                const timer = setInterval(() => {
-                    current += increment;
-                    if (current >= number) {
-                        counter.textContent = target;
-                        clearInterval(timer);
-                    } else {
-                        counter.textContent = target.replace(number, Math.floor(current));
-                    }
-                }, 30);
-            }
+            const text = counter.textContent || '';
+            const match = text.match(/[\d\.,]+/);
+            if (!match) return;
+            const raw = match[0].replace(/[^\d]/g, '');
+            const number = parseInt(raw, 10);
+            if (isNaN(number) || number <= 0) return;
+
+            let current = 0;
+            const steps = 50;
+            const increment = Math.ceil(number / steps);
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= number) {
+                    counter.textContent = text; // restaurar texto original
+                    clearInterval(timer);
+                } else {
+                    const formatted = current.toLocaleString('es-AR');
+                    counter.textContent = text.replace(match[0], formatted);
+                }
+            }, 20);
         });
     }
 
@@ -224,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function() {
         handleParallax();
     });
 
-    hamburger.addEventListener('click', toggleMobileMenu);
+    if (hamburger) hamburger.addEventListener('click', toggleMobileMenu);
 
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
@@ -293,27 +303,29 @@ document.addEventListener('DOMContentLoaded', function() {
     const inputs = document.querySelectorAll('input, select, textarea');
     inputs.forEach(input => {
         input.addEventListener('focus', () => {
-            if (window.innerWidth < 768) {
-                document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+            if (window.innerWidth < 768 && viewportMeta) {
+                viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
             }
         });
         
         input.addEventListener('blur', () => {
-            document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=device-width, initial-scale=1.0');
+            if (viewportMeta) viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0');
         });
     });
 
     // Mejorar accesibilidad del menú hamburguesa
-    hamburger.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            toggleMobileMenu();
-        }
-    });
+    if (hamburger) {
+        hamburger.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleMobileMenu();
+            }
+        });
+    }
 
     // Cerrar menú móvil al hacer clic fuera
     document.addEventListener('click', (e) => {
-        if (!hamburger.contains(e.target) && !navList.contains(e.target)) {
+        if (hamburger && navList && !hamburger.contains(e.target) && !navList.contains(e.target)) {
             closeMobileMenu();
         }
     });
