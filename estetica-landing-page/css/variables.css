@@ -1,0 +1,104 @@
+/**
+ * Variables CSS - Design Tokens
+ * Propósito: Definir todos los tokens de diseño del sistema
+ * Dependencias: Ninguna (archivo raíz de CSS)
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  /* ============================================
+     PALETA DE COLORES
+     ============================================ */
+  --color-bg: #0D0D0D;
+  --color-surface: #141414;
+  --color-surface-2: #1C1C1C;
+  --color-gold: #C9A96E;
+  --color-gold-light: #E8D5B0;
+  --color-ivory: #F5F0E8;
+  --color-nude: #E8C4B0;
+  --color-text-primary: #F5F0E8;
+  --color-text-secondary: #9E9E9E;
+  --color-border: rgba(201, 169, 110, 0.2);
+
+  /* ============================================
+     TIPOGRAFÍA
+     ============================================ */
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'Inter', sans-serif;
+
+  /* Display (hero title) */
+  --text-display: clamp(3rem, 8vw, 6rem);
+  --weight-display: 300;
+  --letter-spacing-display: -0.02em;
+
+  /* H2 (sección) */
+  --text-h2: clamp(2.5rem, 5vw, 3.5rem);
+  --weight-h2: 400;
+
+  /* H3 (card title) */
+  --text-h3: clamp(1.125rem, 2vw, 1.25rem);
+  --weight-h3: 500;
+
+  /* Body */
+  --text-body: clamp(0.9375rem, 1vw, 1rem);
+  --line-height-body: 1.7;
+
+  /* Caption / label */
+  --text-caption: clamp(0.6875rem, 1vw, 0.75rem);
+  --weight-caption: 500;
+  --letter-spacing-caption: 0.12em;
+
+  /* ============================================
+     ESPACIADO (sistema 8px)
+     ============================================ */
+  --space-1: 0.5rem;   /* 8px */
+  --space-2: 1rem;     /* 16px */
+  --space-3: 1.5rem;   /* 24px */
+  --space-4: 2rem;     /* 32px */
+  --space-6: 3rem;     /* 48px */
+  --space-8: 4rem;     /* 64px */
+  --space-12: 6rem;    /* 96px */
+  --space-16: 8rem;    /* 128px */
+
+  --section-padding: clamp(4rem, 10vw, 8rem);
+  --container-max-width: 1280px;
+  --container-padding: clamp(1.25rem, 5vw, 5rem);
+
+  /* ============================================
+     TRANSICIONES Y ANIMACIONES
+     ============================================ */
+  --duration-standard: 0.4s;
+  --duration-fast: 0.2s;
+  --ease-standard: ease;
+  --ease-custom: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ============================================
+     EFECTOS VISUALES
+     ============================================ */
+  --blur-glass: blur(16px);
+  --glow-gold: 0 0 40px rgba(201, 169, 110, 0.12);
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --border-glass: 1px solid rgba(201, 169, 110, 0.3);
+
+  /* ============================================
+     RADII
+     ============================================ */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* ============================================
+     Z-INDEX
+     ============================================ */
+  --z-base: 1;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-fixed: 300;
+  --z-modal-backdrop: 400;
+  --z-modal: 500;
+  --z-tooltip: 600;
+}
