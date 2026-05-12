@@ -56,18 +56,36 @@
   <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💅</text></svg>">
 </head>
-<body style="scroll-behavior: auto !important" onload="window.scrollTo(0,0)" onpageshow="window.scrollTo(0,0)">
+<body style="scroll-behavior: auto !important">
   <script>
-    // Prevenir scroll automático a hashes
-    window.addEventListener('hashchange', function(e) {
-      window.location.hash = '';
+    // Prevenir scroll automático a hashes al cargar la página
+    // Esto debe ejecutarse lo más pronto posible, ANTES de que el DOM se cargue
+    (function() {
+      // Limpiar cualquier hash de la URL inmediatamente
+      const path = window.location.pathname + window.location.search;
+      if (window.location.hash) {
+        // Usar replaceState para no agregar entrada al historial
+        window.history.replaceState(null, '', path);
+      }
+      
+      // Force scroll to top
       window.scrollTo(0, 0);
-    });
-    // Limpiar hash inmediatamente
-    if (window.location.hash && window.location.hash !== '#hero') {
-      try { window.history.replaceState(null, null, ' '); } catch(e) {}
-      window.scrollTo(0, 0);
-    }
+      
+      // Bloquear intentos de scroll automático
+      const originalScroll = window.scrollTo;
+      let isPreventingDefaultScroll = true;
+      
+      window.addEventListener('load', () => {
+        isPreventingDefaultScroll = false;
+      });
+      
+      // Prevenir scroll a hashes durante la carga
+      window.addEventListener('hashchange', function(e) {
+        e.preventDefault();
+        window.history.replaceState(null, '', path);
+        window.scrollTo(0, 0);
+      }, { capture: true });
+    })();
   </script>
   <!-- Skip Link para accesibilidad -->
   <a href="#main" class="skip-link">Saltar al contenido principal</a>
@@ -132,7 +150,6 @@
       <div class="navbar-nav" role="menu" id="main-nav">
         <a href="#servicios" class="navbar-link" role="menuitem">Servicios</a>
         <a href="#galeria" class="navbar-link" role="menuitem">Galería</a>
-        <a href="#testimonios" class="navbar-link" role="menuitem">Testimonios</a>
         <a href="#sobre-nosotros" class="navbar-link" role="menuitem">Nosotros</a>
         <a href="#faq" class="navbar-link" role="menuitem">FAQ</a>
         <a href="#contacto" class="btn btn-primary navbar-cta" role="menuitem">Reservar</a>
@@ -301,111 +318,6 @@
             </div>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- Testimonios Section -->
-    <section id="testimonios" class="testimonios section" role="region" aria-labelledby="testimonios-title">
-      <div class="container">
-        <header class="section-header reveal">
-          <span class="label">Testimonios</span>
-          <h2 id="testimonios-title" class="text-h2">Lo que dicen<span class="text-gold"> nuestras clientas</span></h2>
-          <p>La satisfacción de nuestras clientas es nuestro mejor respaldo.</p>
-        </header>
-
-        <div class="testimonios-slider reveal" tabindex="0" role="region" aria-label="Carrusel de testimonios">
-          <article class="testimonio-card card-glass">
-            <header class="testimonio-header">
-              <div class="testimonio-avatar">M</div>
-              <div class="testimonio-info">
-                <h4>María González</h4>
-                <span>Manicura + Nail Art</span>
-              </div>
-            </header>
-            <div class="testimonio-stars">
-              <svg aria-hidden="true"><use href="#icon-star"></use></svg>
-              <svg aria-hidden="true"><use href="#icon-star"></use></svg>
-              <svg aria-hidden="true"><use href="#icon-star"></use></svg>
-              <svg aria-hidden="true"><use href="#icon-star"></use></svg>
-              <svg aria-hidden="true"><use href="#icon-star"></use></svg>
-            </div>
-            <p class="testimonio-text">"Increíble trabajo. Mis uñas quedaron perfectas para mi boda. El nail art superó todas mis expectativas. El ambiente del studio es super relajado y profesional."</p>
-          </article>
-
-          <article class="testimonio-card card-glass">
-            <header class="testimonio-header">
-              <div class="testimonio-avatar">C</div>
-              <div class="testimonio-info">
-                <h4>Camila Rodríguez</h4>
-                <span>Uñas Esculpidas</span>
-              </div>
-            </header>
-            <div class="testimonio-stars">
-              <svg aria-hidden="true"><use href="#icon-star"></use></svg>
-              <svg aria-hidden="true"><use href="#icon-star"></use></svg>
-              <svg aria-hidden="true"><use href="#icon-star"></use></svg>
-              <svg aria-hidden="true"><use href="#icon-star"></use></svg>
-              <svg aria-hidden="true"><use href="#icon-star"></use></svg>
-            </div>
-            <p class="testimonio-text">"Llevo 2 años viniendo y nunca defrauda. Las extensiones me duran impecable. El equipo sabe exactamente lo que hago y mis uñas quedan siempre perfectas."</p>
-          </article>
-
-          <article class="testimonio-card card-glass">
-            <header class="testimonio-header">
-              <div class="testimonio-avatar">S</div>
-              <div class="testimonio-info">
-                <h4>Soledad Martínez</h4>
-                <span>Pedicura Spa</span>
-              </div>
-            </header>
-            <div class="testimonio-stars">
-              <svg aria-hidden="true"><use href="#icon-star"></use></svg>
-              <svg aria-hidden="true"><use href="#icon-star"></use></svg>
-              <svg aria-hidden="true"><use href="#icon-star"></use></svg>
-              <svg aria-hidden="true"><use href="#icon-star"></use></svg>
-              <svg aria-hidden="true"><use href="#icon-star"></use></svg>
-            </div>
-            <p class="testimonio-text">"La mejor experiencia de spa que probé. El massage de pies es divino y elResultado quedó hermoso. Ahora vengo cada mes sin falta. ¡Totalmente recomendado!"</p>
-          </article>
-
-          <article class="testimonio-card card-glass">
-            <header class="testimonio-header">
-              <div class="testimonio-avatar">A</div>
-              <div class="testimonio-info">
-                <h4>Antonella López</h4>
-                <span>Semipermanente</span>
-              </div>
-            </header>
-            <div class="testimonio-stars">
-              <svg aria-hidden="true"><use href="#icon-star"></use></svg>
-              <svg aria-hidden="true"><use href="#icon-star"></use></svg>
-              <svg aria-hidden="true"><use href="#icon-star"></use></svg>
-              <svg aria-hidden="true"><use href="#icon-star"></use></svg>
-              <svg aria-hidden="true"><use href="#icon-star"></use></svg>
-            </div>
-            <p class="testimonio-text">"Perfecto para mi ritmo de vida. Me duró 3 semanas sin una solauña. Los colores que usan son hermosos y siempre tengo ganas de volver por el siguiente diseño."</p>
-          </article>
-
-          <article class="testimonio-card card-glass">
-            <header class="testimonio-header">
-              <div class="testimonio-avatar">V</div>
-              <div class="testimonio-info">
-                <h4>Valentina Díaz</h4>
-                <span>Kapping</span>
-              </div>
-            </header>
-            <div class="testimonio-stars">
-              <svg aria-hidden="true"><use href="#icon-star"></use></svg>
-              <svg aria-hidden="true"><use href="#icon-star"></use></svg>
-              <svg aria-hidden="true"><use href="#icon-star"></use></svg>
-              <svg aria-hidden="true"><use href="#icon-star"></use></svg>
-              <svg aria-hidden="true"><use href="#icon-star"></use></svg>
-            </div>
-            <p class="testimonio-text">"Mis uñas naturals nunca lucieron tan sanas. El kapping le dio la fuerza que necesitaba sin parecer falso. Ahora puedo crecerlas sin que se rompan."</p>
-          </article>
-        </div>
-
-        <div class="testimonios-dots" role="tablist" aria-label="Navegación de testimonios"></div>
       </div>
     </section>
 

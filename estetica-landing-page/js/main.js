@@ -9,35 +9,24 @@ import { initRevealOnScroll } from './modules/reveal.js';
 import { initParallax } from './modules/parallax.js';
 import { initCounters } from './modules/counters.js';
 import { initGallery } from './modules/gallery.js';
-import { initSlider } from './modules/slider.js';
 import { initAccordion } from './modules/accordion.js';
 import { initForm } from './modules/form.js';
 import { initFloatingButtons } from './modules/floating-buttons.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Evitar scroll automático a cualquier hash al cargar
+  // Limpiar cualquier hash que intente hacer scroll automático
   if (window.location.hash) {
-    window.scrollTo(0, 0);
-    history.replaceState(null, '', window.location.pathname + window.location.search);
+    window.history.replaceState(null, '', window.location.pathname + window.location.search);
   }
-
+  
   initNavbar();
   initRevealOnScroll();
   initParallax();
   initCounters();
   initGallery();
-  initSlider();
   initAccordion();
   initForm();
   initFloatingButtons();
 
   console.log('Estética Bella - Landing page initialized');
-});
-
-// También ejecutar antes de que cargue cualquier recurso
-if (window.location.hash) {
-  sessionStorage.setItem('scrollToTop', 'true');
-}
-window.addEventListener('beforeunload', () => {
-  sessionStorage.setItem('scrollToTop', 'true');
 });
